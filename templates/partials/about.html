@@ -1,0 +1,8 @@
+{{define "about"}}
+<section class="block" id="about">
+  <h2 class="cmd"><span class="dollar">$</span>About</h2>
+  <div class="body">
+    {{range .About}}<p>{{.}}</p>{{end}}
+  </div>
+</section>
+{{end}}

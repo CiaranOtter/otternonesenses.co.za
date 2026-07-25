@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   LANDING. A poster with a halftone screen behind it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --paper:   #e9e5db;
+  --ink:     #12100e;
+  --ink-2:   #56514a;
+  --spot:    #e8340c;
+
+  --display: Impact, Haettenschweiler, "Arial Narrow Bold",
+             "Franklin Gothic Heavy", sans-serif;
+  --grot:    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; border-radius: 0 !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--grot);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--spot); color: var(--paper); }
+
+#field { 
+    position: absolute;
+    inset: 0;
+    display: block;
+    z-index: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+/* No chrome. The scanlines and vignette are gone for good. */
+.scanlines, .vignette { display: none; }
+
+.hero {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(1.2rem, 6vw, 5rem);
+  pointer-events: none;
+  min-height: 100svh;
+}
+.hero > * { pointer-events: auto; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: clamp(.62rem, 1.3vw, .72rem);
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+  padding: .3rem .6rem;
+  align-self: flex-start;
+  background: var(--spot);
+  color: var(--paper);
+}
+
+/* The name is the poster. Everything else is caption. */
+.name {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(3.4rem, 17vw, 12rem);
+  font-weight: 400;
+  letter-spacing: -.025em;
+  line-height: .8;
+  text-transform: uppercase;
+  color: var(--ink);
+  /* knocks the type out of the halftone rather than floating over it */
+  background: var(--paper);
+  bac
+  box-shadow: 0 0 0 .18em var(--paper);
+  width: fit-content;
+}
+
+.title {
+  margin: 1.6rem 0 0;
+  font-family: var(--mono);
+  font-size: clamp(.68rem, 1.7vw, .8rem);
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  background: var(--paper);
+  box-shadow: 0 0 0 .35em var(--paper);
+  width: fit-content;
+}
+
+.sub {
+  margin: 1.6rem 0 0;
+  max-width: 42ch;
+  font-size: clamp(.9rem, 1.8vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.4;
+  background: var(--paper);
+  box-shadow: 0 0 0 .5em var(--paper);
+  width: fit-content;
+}
+
+/* ── bottom rail ──────────────────────────────────────────────────────── */
+
+.rail {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.rail nav { display: flex; }
+
+.rail a {
+  display: flex;
+  align-items: center;
+  padding: .7rem 1.1rem;
+  color: var(--paper);
+  text-decoration: none;
+  border-right: 2px solid var(--paper);
+}
+.rail a:hover, .rail a:focus-visible { background: var(--paper); color: var(--ink); }
+.rail .enter { background: var(--spot); }
+.rail .enter:hover { background: var(--paper); color: var(--spot); }
+
+.hint {
+  display: flex;
+  align-items: center;
+  padding: .7rem 1.1rem;
+  color: var(--paper);
+  opacity: .6;
+  transition: opacity .5s;
+}
+.hint.gone { opacity: 0; }
+
+:focus-visible { outline: 4px solid var(--spot); outline-offset: 2px; }
+
+@media (max-width: 620px) {
+  .hint { display: none; }
+  .rail a { flex: 1; justify-content: center; padding: .7rem .5rem; }
+  .rail a:last-child { border-right: none; }
+}

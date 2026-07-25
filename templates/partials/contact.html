@@ -1,0 +1,14 @@
+{{define "contact"}}
+<section class="block" id="contact">
+  <h2 class="cmd"><span class="dollar">$</span>Contact</h2>
+  <div class="body">
+    <dl class="contact">
+      <div class="skill-row"><dt>Email</dt><dd><a href="mailto:{{.Me.Email}}">{{.Me.Email}}</a></dd></div>
+      <div class="skill-row"><dt>GitHub</dt><dd><a href="{{.Me.GitHub}}" rel="noopener">{{.Me.GitHub}}</a></dd></div>
+      <div class="skill-row"><dt>LinkedIn</dt><dd><a href="{{.Me.LinkedIn}}" rel="noopener">{{.Me.LinkedIn}}</a></dd></div>
+      <div class="skill-row"><dt>Location</dt><dd>{{.Me.Location}}</dd></div>
+      {{if .Me.CVPath}}<div class="skill-row"><dt>CV</dt><dd><a href="{{.Me.CVPath}}">Download PDF</a></dd></div>{{end}}
+    </dl>
+  </div>
+</section>
+{{end}}

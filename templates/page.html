@@ -1,0 +1,38 @@
+{{define "page"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Me.Name}} — {{.Me.Role}}</title>
+<meta name="description" content="{{.Me.Tagline}}">
+<meta name="color-scheme" content="light">
+<meta property="og:title" content="{{.Me.Name}} — {{.Me.Role}}">
+<meta property="og:description" content="{{.Me.Tagline}}">
+<meta property="og:type" content="profile">
+<link rel="stylesheet" href="/static/css/style.css?v={{.V}}">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<a class="skip" href="#about">Skip to content</a>
+
+{{template "hero" .}}
+
+{{template "nav" .}}
+
+<main class="screen" id="content">
+  {{template "about" .}}
+  {{template "skills" .}}
+  {{template "experience" .}}
+  {{template "projects" .}}
+  {{template "contact" .}}
+  {{template "footer" .}}
+</main>
+
+{{template "statusbar" .}}
+
+<script src="/static/js/landing.js?v={{.V}}" defer></script>
+<script src="/static/js/main.js?v={{.V}}" defer></script>
+</body>
+</html>
+{{end}}

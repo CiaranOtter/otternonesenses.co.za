@@ -1,0 +1,27 @@
+# /etc/caddy/Caddyfile on the DigitalOcean droplet.
+# Caddy provisions and renews the TLS certificate on its own — which is why
+# the Pi never needs to solve an ACME challenge from behind the tunnel.
+
+yourdomain.com, www.yourdomain.com {
+	encode zstd gzip
+
+	reverse_proxy 10.8.0.2:8080 {
+		health_uri      /healthz
+		health_interval 30s
+		health_timeout  5s
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+
+	log {
+		output file /var/log/caddy/portfolio.log
+		format console
+	}
+
+	handle_errors {
+		respond "The server behind the tunnel is not responding. Try again shortly." {http.error.status_code}
+	}
+}

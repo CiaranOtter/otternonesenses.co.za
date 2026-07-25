@@ -1,0 +1,18 @@
+{{define "404.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — not found</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<main class="screen screen-404">
+  <p class="cmd"><span class="sh">{{.Handle}}@edge</span><span class="sep">:</span><span class="dir">~</span><span class="dollar">$</span> cat {{.Path}}</p>
+  <p class="err">No such page</p>
+  <p class="body">Nothing is set at <code>{{.Path}}</code>.</p>
+  <p class="body"><a href="/">Back to the front page</a></p>
+</main>
+</body>
+</html>
+{{end}}

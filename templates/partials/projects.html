@@ -1,0 +1,26 @@
+{{define "projects"}}
+<section class="block" id="projects">
+  <h2 class="cmd"><span class="dollar">$</span>Selected work</h2>
+  <div class="body">
+    <div class="projects">
+      {{range .Projects}}
+      <article class="project">
+        <div class="project-head">
+          <h3>
+            {{if .SelfHosted}}<span class="live-dot" title="Runs on my own hardware">&#9632;</span>{{end}}
+            {{.Name}}
+          </h3>
+          <div class="links">
+            {{if .Live}}<a href="{{.Live}}" rel="noopener">Live</a>{{end}}
+            {{if .Repo}}<a href="{{.Repo}}" rel="noopener">Source</a>{{end}}
+          </div>
+        </div>
+        <p class="blurb">{{.Blurb}}</p>
+        <p class="detail">{{.Detail}}</p>
+        <p class="stack">{{range .Stack}}{{.}} {{end}}</p>
+      </article>
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}

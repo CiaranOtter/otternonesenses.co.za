@@ -1,0 +1,37 @@
+{{define "landing.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Name}} — {{.Role}}</title>
+<meta name="description" content="{{.Tagline}}">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="{{.Name}} — {{.Role}}">
+<meta property="og:description" content="{{.Tagline}}">
+<meta property="og:type" content="profile">
+<link rel="stylesheet" href="/static/css/landing.css">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<canvas id="field" aria-hidden="true"></canvas>
+<header class="hero">
+  <p class="eyebrow">{{.Role}}</p>
+  <h1 class="name">{{.Name}}</h1>
+  <p class="title">Backend &middot; Infrastructure &middot; Distributed systems</p>
+  <p class="sub">{{.Tagline}}</p>
+</header>
+
+<div class="rail">
+  <nav>
+    <a class="enter" href="/cv">Enter</a>
+    <a href="{{.GitHub}}" rel="noopener">GitHub</a>
+    <a href="mailto:{{.Email}}">Email</a>
+  </nav>
+  <span class="hint" id="hint">Move your cursor to pull the plates apart</span>
+</div>
+
+<script src="/static/js/landing.js" defer></script>
+</body>
+</html>
+{{end}}

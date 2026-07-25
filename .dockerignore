@@ -1,0 +1,6 @@
+.git
+.github
+*.tar.gz
+portfolio
+deploy
+README.md

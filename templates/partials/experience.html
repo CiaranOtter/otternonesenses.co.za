@@ -1,0 +1,19 @@
+{{define "experience"}}
+<section class="block" id="experience">
+  <h2 class="cmd"><span class="dollar">$</span>Experience</h2>
+  <div class="body">
+    {{range .Experience}}
+    <article class="role">
+      <div class="role-head">
+        <h3>{{.Title}} <span class="at">at</span> {{.Company}}</h3>
+        <span class="period">{{.Period}}</span>
+      </div>
+      <ul class="bullets">
+        {{range .Bullets}}<li>{{.}}</li>{{end}}
+      </ul>
+      <p class="stack">{{range .Stack}}{{.}} {{end}}</p>
+    </article>
+    {{end}}
+  </div>
+</section>
+{{end}}

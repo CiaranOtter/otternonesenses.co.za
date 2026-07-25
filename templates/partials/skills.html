@@ -1,0 +1,15 @@
+{{define "skills"}}
+<section class="block" id="skills">
+  <h2 class="cmd"><span class="dollar">$</span>Skills</h2>
+  <div class="body">
+    <dl class="skills">
+      {{range .Skills}}
+      <div class="skill-row">
+        <dt>{{.Category}}</dt>
+        <dd>{{range .Items}}<span class="chip">{{.}}</span>{{end}}</dd>
+      </div>
+      {{end}}
+    </dl>
+  </div>
+</section>
+{{end}}

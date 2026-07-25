@@ -1,0 +1,143 @@
+{{define "index.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Me.Name}} — {{.Me.Role}}</title>
+<meta name="description" content="{{.Me.Tagline}}">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="{{.Me.Name}} — {{.Me.Role}}">
+<meta property="og:description" content="{{.Me.Tagline}}">
+<meta property="og:type" content="profile">
+<link rel="stylesheet" href="/static/css/style.css">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<a class="skip" href="#about">Skip to content</a>
+
+<main class="screen">
+
+  <!-- ── masthead ─────────────────────────────────────────────── -->
+  <header class="masthead">
+    <div class="mast-rule" aria-hidden="true"></div>
+    <h1 class="name">{{.Me.Name}}</h1>
+    <p class="role">{{.Me.Role}}</p>
+    <p class="tagline">{{.Me.Tagline}}</p>
+
+    <nav class="nav" aria-label="Sections">
+      <a href="/">home</a>
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </nav>
+    <div class="mast-rule" aria-hidden="true"></div>
+  </header>
+
+  <!-- ── about ────────────────────────────────────────────────── -->
+  <section class="block" id="about">
+    <h2 class="cmd"><span class="sh">{{.Me.Handle}}@edge</span><span class="sep">:</span><span class="dir">~</span><span class="dollar">$</span> About</h2>
+    <div class="body">
+      {{range .About}}<p>{{.}}</p>{{end}}
+    </div>
+  </section>
+
+  <!-- ── skills ───────────────────────────────────────────────── -->
+  <section class="block" id="skills">
+    <h2 class="cmd"><span class="sh">{{.Me.Handle}}@edge</span><span class="sep">:</span><span class="dir">~</span><span class="dollar">$</span> Skills</h2>
+    <div class="body">
+      <dl class="skills">
+        {{range .Skills}}
+        <div class="skill-row">
+          <dt>{{.Category}}</dt>
+          <dd>{{range $i, $s := .Items}}{{if $i}}<span class="dot">·</span>{{end}}<span class="chip">{{$s}}</span>{{end}}</dd>
+        </div>
+        {{end}}
+      </dl>
+    </div>
+  </section>
+
+  <!-- ── experience ───────────────────────────────────────────── -->
+  <section class="block" id="experience">
+    <h2 class="cmd"><span class="sh">{{.Me.Handle}}@edge</span><span class="sep">:</span><span class="dir">~</span><span class="dollar">$</span> Experience</h2>
+    <div class="body">
+      {{range .Experience}}
+      <article class="role">
+        <div class="role-head">
+          <h3>{{.Title}} <span class="at">at</span> {{.Company}}</h3>
+          <span class="period">{{.Period}}</span>
+        </div>
+        <ul class="bullets">
+          {{range .Bullets}}<li>{{.}}</li>{{end}}
+        </ul>
+        <p class="stack">{{range $i, $s := .Stack}}{{if $i}} <span class="dot">·</span> {{end}}{{$s}}{{end}}</p>
+      </article>
+      {{end}}
+    </div>
+  </section>
+
+  <!-- ── projects ─────────────────────────────────────────────── -->
+  <section class="block" id="projects">
+    <h2 class="cmd"><span class="sh">{{.Me.Handle}}@edge</span><span class="sep">:</span><span class="dir">~</span><span class="dollar">$</span> Selected work</h2>
+    <div class="body">
+      <div class="projects">
+        {{range .Projects}}
+        <article class="project">
+          <div class="project-head">
+            <h3>
+              {{if .SelfHosted}}<span class="live-dot" title="Running on my own hardware">&#9679;</span>{{end}}
+              {{.Name}}
+            </h3>
+            <div class="links">
+              {{if .Live}}<a href="{{.Live}}" rel="noopener">live</a>{{end}}
+              {{if .Repo}}<a href="{{.Repo}}" rel="noopener">source</a>{{end}}
+            </div>
+          </div>
+          <p class="blurb">{{.Blurb}}</p>
+          <p class="detail">{{.Detail}}</p>
+          <p class="stack">{{range $i, $s := .Stack}}{{if $i}} <span class="dot">·</span> {{end}}{{$s}}{{end}}</p>
+        </article>
+        {{end}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── contact ──────────────────────────────────────────────── -->
+  <section class="block" id="contact">
+    <h2 class="cmd"><span class="sh">{{.Me.Handle}}@edge</span><span class="sep">:</span><span class="dir">~</span><span class="dollar">$</span> Contact</h2>
+    <div class="body">
+      <dl class="contact">
+        <div class="skill-row"><dt>email</dt><dd><a href="mailto:{{.Me.Email}}">{{.Me.Email}}</a></dd></div>
+        <div class="skill-row"><dt>github</dt><dd><a href="{{.Me.GitHub}}" rel="noopener">{{.Me.GitHub}}</a></dd></div>
+        <div class="skill-row"><dt>linkedin</dt><dd><a href="{{.Me.LinkedIn}}" rel="noopener">{{.Me.LinkedIn}}</a></dd></div>
+        <div class="skill-row"><dt>location</dt><dd>{{.Me.Location}}</dd></div>
+        {{if .Me.CVPath}}<div class="skill-row"><dt>cv</dt><dd><a href="{{.Me.CVPath}}">download PDF</a></dd></div>{{end}}
+      </dl>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>&copy; {{.Year}} {{.Me.Name}}</span>
+    <span class="foot-note">Served from a Raspberry Pi over WireGuard.</span>
+  </footer>
+
+</main>
+
+<!-- ── signature: live host readout ───────────────────────────── -->
+<div class="statusbar" id="statusbar" role="status" aria-live="off" aria-label="Live host status">
+  <span class="st-seg st-brand">HOST</span>
+  <span class="st-seg" id="st-host">…</span>
+  <span class="st-seg" id="st-arch"></span>
+  <span class="st-seg" id="st-go"></span>
+  <span class="st-spacer"></span>
+  <span class="st-seg" id="st-mem"></span>
+  <span class="st-seg" id="st-hits"></span>
+  <span class="st-seg st-up" id="st-up"></span>
+</div>
+
+<script src="/static/js/main.js" defer></script>
+</body>
+</html>
+{{end}}
