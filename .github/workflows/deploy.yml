@@ -128,6 +128,7 @@ jobs:
           CADDY_B64: ${{ steps.render.outputs.b64 }}
         with:
           host: ${{ secrets.VPS_HOST }}
+          port: 22
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           envs: CADDY_B64,SITE
