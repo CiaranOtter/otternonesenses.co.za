@@ -138,27 +138,10 @@ jobs:
             set -euo pipefail
             sudo mkdir -p /etc/caddy/sites /var/log/caddy
 
-            # Deploy main Caddyfile (source of truth lives in the repo now)
-            sudo cp -f /etc/caddy/Caddyfile /tmp/Caddyfile.bak 2>/dev/null || true
-            echo "$MAIN_B64" | base64 -d | sudo tee /etc/caddy/Caddyfile >/dev/null
-
             # Deploy this site's config
             TARGET="/etc/caddy/sites/${SITE}.caddy"
             sudo cp -f "$TARGET" "/tmp/${SITE}.caddy.bak" 2>/dev/null || true
             echo "$SITE_B64" | base64 -d | sudo tee "$TARGET" >/dev/null
-
-            # Fail fast on any duplicate host declarations before validate
-            dup=$(cat /etc/caddy/sites/*.caddy 2>/dev/null \
-                  | grep -oE '^[a-zA-Z0-9*][a-zA-Z0-9*.,: -]*\{' \
-                  | sed 's/{$//' | tr ',' '\n' | sed 's/^ *//;s/ *$//' \
-                  | sort | uniq -d)
-            if [ -n "$dup" ]; then
-              echo "duplicate site definition(s) found across sites/*.caddy:"
-              echo "$dup"
-              sudo cp -f /tmp/Caddyfile.bak /etc/caddy/Caddyfile 2>/dev/null || true
-              [ -f "/tmp/${SITE}.caddy.bak" ] && sudo cp -f "/tmp/${SITE}.caddy.bak" "$TARGET" || sudo rm -f "$TARGET"
-              exit 1
-            fi
 
             if ! sudo caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile; then
               echo "config invalid, rolling back"
