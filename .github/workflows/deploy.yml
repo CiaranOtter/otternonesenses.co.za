@@ -196,6 +196,7 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           UNIT_B64: ${{ steps.render.outputs.b64 }}
+          LOCAL_SSH_KEY: ${{ secrets.LOCAL_SSH_KEY }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
