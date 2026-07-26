@@ -88,6 +88,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Render site config
         id: render
         run: |
@@ -118,20 +121,19 @@ jobs:
               }
           }
           EOF
-          # base64 avoids every quoting problem that comes with sending a
-          # multi-line file through nested shells.
-          echo "b64=$(base64 -w0 site.caddy)" >> "$GITHUB_OUTPUT"
+          echo "site_b64=$(base64 -w0 site.caddy)" >> "$GITHUB_OUTPUT"
+          echo "main_b64=$(base64 -w0 infra/Caddyfile)" >> "$GITHUB_OUTPUT"
 
       - name: Install and reload
         uses: appleboy/ssh-action@v1
         env:
-          CADDY_B64: ${{ steps.render.outputs.b64 }}
+          SITE_B64: ${{ steps.render.outputs.site_b64 }}
+          MAIN_B64: ${{ steps.render.outputs.main_b64 }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: CADDY_B64,SITE
-          script_stop: true
+          envs: SITE_B64,MAIN_B64,SITE
           script: |
             set -euo pipefail
             sudo mkdir -p /etc/caddy/sites /var/log/caddy
