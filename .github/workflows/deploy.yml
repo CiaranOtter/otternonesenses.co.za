@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITE:        portfolio
+  SITE:        otternonesenses
   IMAGE:       ghcr.io/ciaranotter/portfolio
   # Inputs win, then repository variables, then these defaults. Set the
   # variables under Settings -> Secrets and variables -> Actions -> Variables
