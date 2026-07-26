@@ -21,11 +21,11 @@ concurrency:
 
 env:
   SITE:        otternonesenses
-  IMAGE:       ghcr.io/ciaranotter/portfolio
+  IMAGE:       ghcr.io/ciaranotter/otternonesenses
   # Inputs win, then repository variables, then these defaults. Set the
   # variables under Settings -> Secrets and variables -> Actions -> Variables
   # so a push to main uses the same values as a manual run.
-  DOMAIN:      ${{ inputs.domain      || vars.SITE_DOMAIN || 'ciaranotter.com' }}
+  DOMAIN:      ${{ inputs.domain      || vars.SITE_DOMAIN || 'otternonesenses.com' }}
   TUNNEL_PORT: ${{ inputs.tunnel_port || vars.TUNNEL_PORT || '9080' }}
   APP_PORT:    ${{ inputs.app_port    || vars.APP_PORT    || '8080' }}
   TUNNEL_SSH_PORT:    ${{ vars.SSH_TUNNEL_PORT || '9022' }}
