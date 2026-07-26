@@ -206,7 +206,8 @@ jobs:
           script: |
             set -euo pipefail
 
-            ssh -p "${TUNNEL_SSH_PORT}" \
+            echo "$secrets.LOCAL_SSH_KEY" | ssh -i /dev/stdin \
+              -p "${TUNNEL_SSH_PORT}" \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               ${{ secrets.LOCAL_USER }}@localhost \
