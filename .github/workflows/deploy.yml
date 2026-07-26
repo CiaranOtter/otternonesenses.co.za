@@ -28,7 +28,7 @@ env:
   DOMAIN:      ${{ inputs.domain      || vars.SITE_DOMAIN || 'ciaranotter.com' }}
   TUNNEL_PORT: ${{ inputs.tunnel_port || vars.TUNNEL_PORT || '9080' }}
   APP_PORT:    ${{ inputs.app_port    || vars.APP_PORT    || '8080' }}
-  SSH_PORT:    ${{ vars.SSH_TUNNEL_PORT || '9022' }}
+  TUNNEL_SSH_PORT:    ${{ vars.SSH_TUNNEL_PORT || '9022' }}
 
 jobs:
 
