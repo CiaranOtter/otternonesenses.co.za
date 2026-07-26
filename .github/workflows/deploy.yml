@@ -200,14 +200,17 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: UNIT_B64,SITE,TUNNEL_SSH_PORT
-          script_stop: true
-          command_timeout: 5m
+          envs: UNIT_B64,SITE,SSH_PORT,LOCAL_SSH_KEY
           script: |
             set -euo pipefail
 
-            echo "${secrets.LOCAL_SSH_KEY}" | ssh -i /dev/stdin \
-              -p "${TUNNEL_SSH_PORT}" \
+            KEYFILE=$(mktemp)
+            trap 'rm -f "$KEYFILE"' EXIT
+            printf '%s\n' "$LOCAL_SSH_KEY" > "$KEYFILE"
+            chmod 600 "$KEYFILE"
+
+            ssh -i "$KEYFILE" \
+              -p "${SSH_PORT}" \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               ${{ secrets.LOCAL_USER }}@localhost \
