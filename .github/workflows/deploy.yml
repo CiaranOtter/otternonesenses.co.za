@@ -181,7 +181,7 @@ jobs:
             -o ServerAliveCountMax=3 \\
             -o ExitOnForwardFailure=yes \\
             -o StrictHostKeyChecking=accept-new \\
-            -R ${SSH_PORT}:localhost:22 \\
+            -R ${TUNNEL_SSH_PORT}:localhost:22 \\
             -R ${TUNNEL_PORT}:localhost:${APP_PORT} \\
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}
           Restart=always
@@ -200,13 +200,13 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: UNIT_B64,SITE,SSH_PORT
+          envs: UNIT_B64,SITE,TUNNEL_SSH_PORT
           script_stop: true
           command_timeout: 5m
           script: |
             set -euo pipefail
 
-            ssh -p "${SSH_PORT}" \
+            ssh -p "${TUNNEL_SSH_PORT}" \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               ${{ secrets.LOCAL_USER }}@localhost \
@@ -234,7 +234,7 @@ jobs:
             # Wait, from the VPS, for the tunnel to come back.
             echo "waiting for tunnel ports"
             for i in $(seq 1 30); do
-              if nc -z localhost "${SSH_PORT}" 2>/dev/null; then
+              if nc -z localhost "${TUNNEL_SSH_PORT}" 2>/dev/null; then
                 echo "tunnel is back after ${i} attempts"
                 exit 0
               fi
@@ -260,13 +260,13 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: IMAGE_TAG,SITE,APP_PORT,SSH_PORT
+          envs: IMAGE_TAG,SITE,APP_PORT,TUNNEL_SSH_PORT
           script_stop: true
           command_timeout: 10m
           script: |
             set -euo pipefail
 
-            ssh -p "${SSH_PORT}" \
+            ssh -p "${TUNNEL_SSH_PORT}" \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               ${{ secrets.LOCAL_USER }}@localhost \
