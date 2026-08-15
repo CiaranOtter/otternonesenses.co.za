@@ -17,11 +17,11 @@
 <a class="skip" href="#about">Skip to content</a>
 
 {{template "hero" .}}
-
-{{template "nav" .}}
+{{template "about" .}}
+<!-- {{template "nav" .}} -->
 
 <main class="screen" id="content">
-  {{template "about" .}}
+  
   {{template "skills" .}}
   {{template "experience" .}}
   {{template "projects" .}}
@@ -32,6 +32,7 @@
 {{template "statusbar" .}}
 
 <script src="/static/js/landing.js?v={{.V}}" defer></script>
+<script src="/static/js/reveal.js?v={{.V}}" defer></script>
 <script src="/static/js/main.js?v={{.V}}" defer></script>
 </body>
 </html>

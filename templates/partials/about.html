@@ -1,8 +1,16 @@
 {{define "about"}}
-<section class="block" id="about">
-  <h2 class="cmd"><span class="dollar">$</span>About</h2>
-  <div class="body">
-    {{range .About}}<p>{{.}}</p>{{end}}
+<section class="block block-full" id="about">
+  <div class="about-intro">
+    <div class="about-photo">
+      <!-- Drop your portrait at static/img/portrait.jpg to replace this placeholder -->
+      <img class="portrait" src="/static/img/portrait.png" alt="{{.Me.Name}}">
+    </div>
+    <div class="about-body">
+      <h2 class="cmd"><span class="dollar">$</span>About</h2>
+      <div class="body">
+        {{range .About}}<p>{{.}}</p>{{end}}
+      </div>
+    </div>
   </div>
 </section>
 {{end}}

@@ -9,7 +9,7 @@
   --paper-2: #dcd7ca;
   --ink:     #12100e;
   --ink-2:   #56514a;
-  --spot:    #e8340c;
+  --spot:    #c1ff72;
 
   --display: Impact, Haettenschweiler, "Arial Narrow Bold",
              "Franklin Gothic Heavy", sans-serif;
@@ -40,7 +40,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: var(--spot); color: var(--paper); }
+::selection { background: var(--spot); color: var(--ink); }
 
 /* Nothing here has soft edges.
 * { border-radius: 0 !important; } */
@@ -78,7 +78,7 @@ body {
   line-height: .82;
   text-transform: uppercase;
   margin: 1.4rem 0 .8rem;
-  color: var(--ink);
+  color: var(--spot);
 }
 
 .role {
@@ -134,28 +134,33 @@ body {
    HERO. One full viewport, then it scrolls away like anything else.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.hero {
-  position: relative;
-  /* svh, not vh: on mobile, vh includes the collapsing address bar, which
-     leaves the rail cut off below the fold on first paint. */
-  min-height: 100svh;
+/* .hero is a 200vh scroll container; .hero-sticky stays pinned to the top
+   of the viewport while the user scrolls through it, giving landing.js time
+   to drive the scatter animation via scroll position. */
+.hero { position: relative; height: 200vh; }
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: clamp(4rem, 12vh, 8rem) clamp(1.2rem, 6vw, 5rem) 5rem;
   overflow: hidden;
 }
-@supports not (min-height: 100svh) { .hero { min-height: 100vh; } }
+@supports not (height: 100svh) { .hero-sticky { height: 100vh; } }
 
-/* Absolute, not fixed — it has to scroll out of view with its section. */
+/* Canvas fills the sticky panel; clipped by its overflow:hidden. */
 #field {
   position: absolute;
   inset: 0;
   display: block;
   z-index: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
 }
+@supports not (height: 100svh) { #field { height: 100vh; } }
 
 .hero-type { position: relative; z-index: 2; }
 
@@ -169,7 +174,7 @@ body {
   padding: .3rem .6rem;
   display: inline-block;
   background: var(--spot);
-  color: var(--paper);
+  color: var(--ink);
 }
 
 .hero .name {
@@ -180,11 +185,10 @@ body {
   letter-spacing: -.025em;
   line-height: .8;
   text-transform: uppercase;
-  /* knocks the type out of the halftone the way it works on press */
-  background: var(--paper);
-  box-shadow: 0 0 0 .18em var(--paper);
+  color: var(--ink);
+  -webkit-text-stroke: 5px #fff;
+  paint-order: stroke fill;
   width: fit-content;
-  border-radius: 10px;
 }
 
 .hero .title {
@@ -240,8 +244,8 @@ body {
   border-bottom: none;
 }
 .rail a:hover, .rail a:focus-visible { background: var(--paper); color: var(--ink); }
-.rail .enter { background: var(--spot); }
-.rail .enter:hover { background: var(--paper); color: var(--spot); }
+.rail .enter { background: var(--spot); color: var(--ink); }
+.rail .enter:hover { background: var(--paper); color: var(--ink); }
 
 .hint {
   display: flex;
@@ -460,7 +464,7 @@ article.role:last-child { border-bottom: none; }
 
 .st-seg { padding: 0 .9ch; }
 .st-seg + .st-seg { border-left: 2px solid var(--paper); }
-.st-brand { background: var(--spot); color: var(--paper); padding: 0 1ch; margin-right: .5rem; border-left: none; }
+.st-brand { background: var(--spot); color: var(--ink); padding: 0 1ch; margin-right: .5rem; border-left: none; }
 .st-spacer { flex: 1; border: none; }
 .st-up { background: var(--paper); color: var(--ink); }
 .st-stale { opacity: .45; }
@@ -490,6 +494,61 @@ article.role:last-child { border-bottom: none; }
   .rail a:last-child { border-right: none; }
 }
 @media (max-width: 400px) { #st-hits { display: none; } }
+
+/* ── about: 30/70 split, photo on spot / bio on ink ───────────────────────
+   Breaks out of .screen's centered column to run full-bleed. Colours match
+   the hero canvas exactly, so when the scatter finishes collecting the
+   spot plate into its left band and the ink plate into its right band,
+   scrolling past the hero hands off seamlessly into this section. */
+
+.block-full {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+}
+
+.about-intro {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  align-items: stretch;
+}
+
+.about-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--spot);
+}
+
+.portrait {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  background: var(--paper);
+}
+
+.about-body {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 6vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-body .cmd { color: var(--paper); border-bottom-color: var(--paper); }
+.about-body .cmd .dollar { color: var(--spot); }
+.about-body .body p { color: var(--paper); }
+
+@media (max-width: 620px) {
+  .about-intro { grid-template-columns: 1fr; }
+  .about-photo { padding: 2rem clamp(1.2rem, 4vw, 2rem); }
+  .portrait    { max-width: 220px; }
+}
 
 /* ── floors ───────────────────────────────────────────────────────────── */
 
